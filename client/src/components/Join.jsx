@@ -20,7 +20,7 @@ function Join() {
           />
           <Link
           onClick={(e) => (!name || !room ? e.preventDefault() : null)}
-          to={`/chat?name=${name}$room=${room}`}>
+          to={`/chat?name=${name}&room=${room}`}>
             <button type="submit">join</button>
           </Link>
         </JoinInnerContainer>

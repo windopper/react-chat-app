@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
+import styled from 'styled-components';
 import queryString from 'query-string'
 import io from 'socket.io-client';
+import InfoBar from "./InfoBar";
+import Input from "./Input";
+import Messages from "./Messages";
+import TextContainer from "./TextContainer";
 
 const ENDPOINT = 'https://5000-windopper-reactchatapp-8ovb4t7lmhj.ws-us63.gitpod.io/';
 let socket;
@@ -14,10 +19,13 @@ function Chat() {
 
     useEffect(() => {
         const { name, room } = queryString.parse(window.location.search);
-        socket = io(ENDPOINT);
-
+        console.log(queryString.parse(window.location.search))
+        socket = io(ENDPOINT, {
+            transports: ["websocket"],
+        })
         setRoom(room);
         setName(name);
+
         socket.emit('join', {name, room}, (error) => {
             if(error) {
                 alert(error);
@@ -27,7 +35,7 @@ function Chat() {
 
     useEffect(() => {
         socket.on('message', (m) => {
-            setMessage((m) => [...messages, m])
+            setMessages((m) => [...messages, m])
         })
         socket.on('roomData', ({users}) => {
             setUsers(users);
@@ -41,11 +49,27 @@ function Chat() {
         }
     }
     return (
-        <div>
-            채팅
-        </div>
-
-    )
+      <OuterContainer>
+        <InnerContainer>
+          <InfoBar room={room} />
+          <Messages messages={messages} name={name}/>
+          <Input
+            message={message}
+            setMessage={setMessage}
+            sendMessage={sendMessage}
+          />
+        </InnerContainer>
+        <TextContainer users={users} />
+      </OuterContainer>
+    );
 }
+
+const OuterContainer = styled.div`
+    
+`
+
+const InnerContainer = styled.div`
+    
+`
 
 export default Chat;
