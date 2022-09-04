@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from 'styled-components';
 import queryString from 'query-string'
 import io from 'socket.io-client';
@@ -16,6 +16,7 @@ function Chat() {
     const [users, setUsers] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([{user: 'hi', text: 'hi'}]);
+    const innerContainerRef = useRef();
 
     useEffect(() => {
         const { name, room } = queryString.parse(window.location.search);
@@ -42,6 +43,11 @@ function Chat() {
         })
     }, []);
 
+    useEffect(() => {
+        innerContainerRef.current?.scrollIntoView({behavior: 'smooth'})
+        console.log('ddd'); // 알림 스크롤 구현 필요 TODO
+    }, [messages])
+
     const sendMessage = (e) => {
         e.preventDefault();
         if(message) {
@@ -50,15 +56,15 @@ function Chat() {
     }
     return (
       <OuterContainer>
-        <InnerContainer>
+        <InnerContainer className="chatInnerContainer" ref={innerContainerRef}>
           <InfoBar room={room} />
           <Messages messages={messages} name={name}/>
-          <Input
+        </InnerContainer>
+        <Input
             message={message}
             setMessage={setMessage}
             sendMessage={sendMessage}
           />
-        </InnerContainer>
         <TextContainer users={users} />
       </OuterContainer>
     );
@@ -79,6 +85,7 @@ const InnerContainer = styled.div`
     height: calc(100% - 50px);
     top: 0px;
     left: 0px;
+    padding-bottom: 10px;
     background-color: #495057;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -87,6 +94,16 @@ const InnerContainer = styled.div`
     align-items: center;
     overflow-y: scroll;
     overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+        background-color: gray;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: white;
+    }
 `
 
 export default Chat;

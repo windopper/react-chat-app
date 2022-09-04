@@ -41,7 +41,8 @@ const OuterContainer = styled.div`
 
 const LeftContainer = styled.div`
     position: relative;
-    width: 80%;
+    width: fit-content;
+    max-width: 80%;
     border-radius: 10px;
     background-color: #c5f6fa;
     display: flex;
@@ -52,7 +53,8 @@ const LeftContainer = styled.div`
 
 const RightContainer = styled.div`
     position: relative;
-    width: 80%;
+    width: fit-content;
+    max-width: 80%;
     border-radius: 10px;
     background-color: #c3fae8;
     display: flex;
@@ -69,6 +71,7 @@ const UserName = styled.div`
 
 const UserMessage = styled.div`
     font-weight: 800;
+    margin: 5px 20px;
 `
 
 export default Message;
