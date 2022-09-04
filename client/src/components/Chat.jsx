@@ -15,7 +15,7 @@ function Chat() {
     const [room, setRoom] = useState('');
     const [users, setUsers] = useState('');
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([{user: 'hi', text: 'hi'}]);
 
     useEffect(() => {
         const { name, room } = queryString.parse(window.location.search);
@@ -35,7 +35,7 @@ function Chat() {
 
     useEffect(() => {
         socket.on('message', (m) => {
-            setMessages((m) => [...messages, m])
+            setMessages((v) => [...v, m])
         })
         socket.on('roomData', ({users}) => {
             setUsers(users);
@@ -65,11 +65,28 @@ function Chat() {
 }
 
 const OuterContainer = styled.div`
-    
+    position: absolute;
+    background-color: #343a40;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
 `
 
 const InnerContainer = styled.div`
-    
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 50px);
+    top: 0px;
+    left: 0px;
+    background-color: #495057;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
 `
 
 export default Chat;

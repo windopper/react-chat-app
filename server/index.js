@@ -15,23 +15,32 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 io.on('connection', (socket) => {
+
     console.log('new connection is generated');
+
     socket.on('join', ({name, room}, callback) => {
+
         const { error, user } = addUser({id: socket.id, name, room})
+
         if(error) callback({error: '에러가 발생했습니다.'})
+
         console.log(user);
+
         socket.emit('message', {
             user: 'admin',
             text: `${user.name}, ${user.room}에 오신것을 환영합니다.`,
         })
+
         socket.broadcast.to(user.room).emit('message', {
             user: 'admin',
             text: `${user.name} 님이 가입하셨습니다`,
         })
+
         io.to(user.room).emit('roomData', {
             room: user.room,
             users: getUsersInRoom(user.room),
         })
+        
         socket.join(user.room);
 
         callback();

@@ -4,11 +4,11 @@ const InfoBar = ({room}) => {
     return (
         <OuterContainer>
             <LeftInnerContainer>
-                <h3>{room}</h3>
+                <h3>방 '{room}' 에 접속하였습니다</h3>
             </LeftInnerContainer>
             <RightInnerContainer>
                 <a href='/'>
-                    home
+                    나가기
                 </a>
             </RightInnerContainer>
         </OuterContainer>
@@ -16,15 +16,24 @@ const InfoBar = ({room}) => {
 }
 
 const OuterContainer = styled.div`
-
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-around;
+    background-color: #ced4da;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 `
 
 const LeftInnerContainer = styled.div`
-    
+    display: flex;
+    flex-direction: row;
+
 `
 
 const RightInnerContainer = styled.div`
-    
+
 `
 
 

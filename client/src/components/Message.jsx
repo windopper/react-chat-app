@@ -1,7 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const Message = ({message: {text, user}, name}) => {
-    console.log(text, user);
     let isSendByCurrentUser = false;
 
     const trimmedName = name.trim().toLowerCase();
@@ -11,20 +11,64 @@ const Message = ({message: {text, user}, name}) => {
     }
 
     return isSendByCurrentUser ? (
-        <div>
-            <p>{trimmedName}</p>
-            <div>
-                <p>{text}</p>
-            </div>
-        </div>
+      <OuterContainer>
+        <LeftContainer>
+          <UserName>{trimmedName}</UserName>
+          <UserMessage>{text}</UserMessage>
+        </LeftContainer>
+      </OuterContainer>
     ) : (
-        <div>
-            <div>
-                <p>{text}</p>
-            </div>
-            <p>{user}</p>
-        </div>
-    )
+      <OuterContainer>
+        <RightContainer>
+          <UserMessage>{text}</UserMessage>
+          <UserName>{user}</UserName>
+        </RightContainer>
+      </OuterContainer>
+    );
 }
+
+const OuterContainer = styled.div`
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > div {
+       margin: 10px; 
+    }
+
+`
+
+const LeftContainer = styled.div`
+    position: relative;
+    width: 80%;
+    border-radius: 10px;
+    background-color: #c5f6fa;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    align-items: center;
+`
+
+const RightContainer = styled.div`
+    position: relative;
+    width: 80%;
+    border-radius: 10px;
+    background-color: #c3fae8;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: flex-end;
+`
+
+const UserName = styled.div`
+    font-weight: lighter;
+    margin: 5px 20px;
+`
+
+const UserMessage = styled.div`
+    font-weight: 800;
+`
 
 export default Message;
