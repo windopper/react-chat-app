@@ -20,7 +20,6 @@ function Chat() {
 
     useEffect(() => {
         const { name, room } = queryString.parse(window.location.search);
-        console.log(queryString.parse(window.location.search))
         socket = io(ENDPOINT, {
             transports: ["websocket"],
         })
@@ -32,7 +31,7 @@ function Chat() {
                 alert(error);
             }
         })
-    }, [ENDPOINT, window.location.search])
+    }, [])
 
     useEffect(() => {
         socket.on('message', (m) => {
@@ -78,10 +77,10 @@ const OuterContainer = styled.div`
 const InnerContainer = styled.div`
     position: absolute;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 70px);
     top: 0px;
     left: 0px;
-    padding-bottom: 10px;
+    padding-bottom: 30px;
     background-color: #495057;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;

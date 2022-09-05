@@ -1,23 +1,52 @@
-import React from "react";
-import styled from 'styled-components';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import styled, { css } from 'styled-components';
 
-const Input = ({ setMessage, sendMessage, message }) => (
-  <OuterContainer>
-    <form className="form">
-      <input
-        className="input"
-        type="text"
-        placeholder="전송하려는 메세지를 입력하세요"
-        value={message}
-        onChange={({ target: { value } }) => setMessage(value)}
-        onKeyDown={(e) =>
-          ({ key }) =>
-            key === "Enter" ? sendMessage(e) : null}
-      />
-      <button className='sendButton' onClick={sendMessage}></button>
-    </form>
-  </OuterContainer>
-);
+const Input = ({ setMessage, sendMessage, message }) => {
+
+  const [inputDisabled, setInputDisabled] = useState(false);
+  const [timeoutInCount, setTimeoutInCount] = useState(0);
+  const [inputVibrating, setInputVibrating] = useState(false);
+  const timeoutIdRef = useRef(undefined);
+
+  const onkeydown = (e) => {
+    const key = e.key;
+    if(key === 'Enter') {
+      sendMessage(e);
+
+      if (timeoutIdRef.current) {
+        if (timeoutInCount > 4) {
+          setInputDisabled(true);
+          setInputVibrating(true);
+          setTimeout(() => setInputVibrating(false), 1000);
+        }
+        clearTimeout(timeoutIdRef.current);
+      }
+        timeoutIdRef.current = setTimeout(() => {
+          timeoutIdRef.current = undefined;
+          setInputDisabled(false);
+          setTimeoutInCount(0);
+        }, 4000);
+      setTimeoutInCount(v => v+1);
+    }
+  };
+
+  return (
+    <OuterContainer>
+      <form className="form">
+        <input
+          className="input"
+          type="text"
+          placeholder="전송하려는 메세지를 입력하세요"
+          value={message}
+          onChange={({ target: { value } }) => setMessage(value)}
+          onKeyDown={onkeydown}
+          disabled={inputDisabled}
+          vibrating={inputVibrating.toString()}
+        />
+        <button className="sendButton" onClick={sendMessage}></button>
+      </form>
+    </OuterContainer>
+  );}
 
 const OuterContainer = styled.div`
   position: absolute;
@@ -56,8 +85,7 @@ const OuterContainer = styled.div`
   .sendButton {
     display: none;
   }
-
-`
+`;
 
 export default Input;
 

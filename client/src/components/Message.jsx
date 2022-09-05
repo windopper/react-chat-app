@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect} from 'react';
 import styled from 'styled-components';
 
 const Message = ({message: {text, user}, name}) => {
     let isSendByCurrentUser = false;
 
     const trimmedName = name.trim().toLowerCase();
-    const ref = useRef();
 
     useEffect(() => {
       // ref.current?.scrollIntoView({behavior: 'smooth'})
@@ -16,14 +15,14 @@ const Message = ({message: {text, user}, name}) => {
     }
 
     return isSendByCurrentUser ? (
-      <OuterContainer ref={ref}>
+      <OuterContainer>
         <LeftContainer>
           <UserName>{trimmedName}</UserName>
           <UserMessage>{text}</UserMessage>
         </LeftContainer>
       </OuterContainer>
     ) : (
-      <OuterContainer ref={ref}>
+      <OuterContainer>
         <RightContainer>
           <UserMessage>{text}</UserMessage>
           <UserName>{user}</UserName>
