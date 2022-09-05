@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const Message = ({message: {text, user}, name}) => {
     let isSendByCurrentUser = false;
 
     const trimmedName = name.trim().toLowerCase();
+    const ref = useRef();
+
+    useEffect(() => {
+      // ref.current?.scrollIntoView({behavior: 'smooth'})
+    }, []);
 
     if(user === trimmedName) {
         isSendByCurrentUser = true;
     }
 
     return isSendByCurrentUser ? (
-      <OuterContainer>
+      <OuterContainer ref={ref}>
         <LeftContainer>
           <UserName>{trimmedName}</UserName>
           <UserMessage>{text}</UserMessage>
         </LeftContainer>
       </OuterContainer>
     ) : (
-      <OuterContainer>
+      <OuterContainer ref={ref}>
         <RightContainer>
           <UserMessage>{text}</UserMessage>
           <UserName>{user}</UserName>
@@ -74,4 +79,4 @@ const UserMessage = styled.div`
     margin: 5px 20px;
 `
 
-export default Message;
+export default React.memo(Message);

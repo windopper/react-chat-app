@@ -43,10 +43,6 @@ function Chat() {
         })
     }, []);
 
-    useEffect(() => {
-        innerContainerRef.current?.scrollIntoView({behavior: 'smooth'})
-        console.log('ddd'); // 알림 스크롤 구현 필요 TODO
-    }, [messages])
 
     const sendMessage = (e) => {
         e.preventDefault();
@@ -96,12 +92,12 @@ const InnerContainer = styled.div`
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
-        width: 10px;
-        background-color: gray;
+        width: 0px;
+        background-color: none;
     }
 
     &::-webkit-scrollbar-thumb {
-        border-radius: 2px;
+        border-radius: 50%;
         background-color: white;
     }
 `
