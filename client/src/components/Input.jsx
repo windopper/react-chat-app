@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled, { css } from 'styled-components';
 
-const Input = ({ setMessage, sendMessage, message }) => {
+const Input = ({ oninputchange, sendMessage, message }) => {
 
   const [inputDisabled, setInputDisabled] = useState(false);
   const [timeoutInCount, setTimeoutInCount] = useState(0);
@@ -38,7 +38,7 @@ const Input = ({ setMessage, sendMessage, message }) => {
           type="text"
           placeholder="전송하려는 메세지를 입력하세요"
           value={message}
-          onChange={({ target: { value } }) => setMessage(value)}
+          onChange={oninputchange}
           onKeyDown={onkeydown}
           disabled={inputDisabled}
           vibrating={inputVibrating.toString()}

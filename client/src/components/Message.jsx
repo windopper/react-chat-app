@@ -6,10 +6,6 @@ const Message = ({message: {text, user}, name}) => {
 
     const trimmedName = name.trim().toLowerCase();
 
-    useEffect(() => {
-      // ref.current?.scrollIntoView({behavior: 'smooth'})
-    }, []);
-
     if(user === trimmedName) {
         isSendByCurrentUser = true;
     }
@@ -76,6 +72,7 @@ const UserName = styled.div`
 const UserMessage = styled.div`
     font-weight: 800;
     margin: 5px 20px;
+    word-break: break-word;
 `
 
 export default React.memo(Message);

@@ -50,6 +50,14 @@ io.on('connection', (socket) => {
         io.to(user.room).emit("message", {user: user.name, text: message})
         callback();
     })
+    socket.on('onWriteMessage', () => {
+        const user = getUser(socket.id);
+        io.to(user.room).emit('userWriting', {user: user.name});
+    })
+    socket.on('offWriteMessage', () => {
+        const user = getUser(socket.id);
+        io.to(user.room).emit('userStopsWriting', {user: user.name});
+    })
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if(user) {
